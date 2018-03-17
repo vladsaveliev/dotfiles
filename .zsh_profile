@@ -1,0 +1,50 @@
+export LC_ALL=en_AU.UTF-8
+export LANG=en_AU.UTF-8
+
+# Set bright ls colors
+CLICOLOR=1
+
+# And always colorize ls
+alias ls='ls --color=auto'
+alias lsca='ls --color=always'
+alias grepca='grep --color=always'
+
+# Add ~/bin to PATH
+export PATH=$HOME/bin:/usr/local/bin:$PATH
+export MANPATH=/usr/local/man:$MANPATH
+
+host=$(hostname)
+if [ $host != "5180L-135800-M.local" ]
+then
+	# Put GNU tools on top of BSD tools
+	export PATH="$(brew --prefix coreutils)/libexec/gnubin:$PATH"  
+	export MANPATH="$(brew --prefix coreutils)/libexec/gnuman:$PATH"  
+
+	# Load miniconda
+	export PATH="$HOME/miniconda3/bin:$PATH"
+
+	function bedsize {
+	    bedtools sort -i $1 | bedtools merge -i | awk -F'\t' 'BEGIN{SUM=0}{ SUM+=$3-$2 }END{print SUM}';
+	}
+
+	cols() { PYTHONPATH= PATH=$HOME/miniconda3/envs/ngs_reporting/bin:$PATH $HOME/miniconda3/envs/ngs_reporting/bin/cols $1; }
+	tsv()  { PYTHONPATH= PATH=$HOME/miniconda3/envs/ngs_reporting/bin:$PATH $HOME/miniconda3/envs/ngs_reporting/bin/tsv  $1; }
+fi
+
+# Preferred editor for local and remote sessions
+if [[ -n $SSH_CONNECTION ]]; then
+  export EDITOR='nano'
+else
+  export EDITOR='subl'
+fi
+
+#Enable Snakemake bash completion for filenames, rulenames and arguments. From http://snakemake.readthedocs.io/en/stable/executable.html
+#`snakemake --bash-completion`
+
+# Travis CLI - added by travis gem
+[ -f $HOME/.travis/travis.sh ] && source $HOME/.travis/travis.sh
+
+# alias py='py --si "/t" --so "\t"'
+
+# For dotfiles repository. See details here: https://developer.atlassian.com/blog/2016/02/best-way-to-store-dotfiles-git-bare-repo/ 
+alias dotfiles='/usr/bin/git --git-dir=$HOME/.dotfiles.git/ --work-tree=$HOME'

@@ -1,0 +1,6 @@
+channels:
+  - vladsaveliev
+  - bioconda
+  - conda-forge
+  - r
+  - defaults

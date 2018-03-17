@@ -1,0 +1,29 @@
+[alias]
+  all = add --all
+  st = status
+  ci = commit
+  co = checkout
+  cpick = cherry-pick
+  br = branch
+  ll = log -30 --oneline
+  l1 = log --oneline
+  t = tag
+  wip = commit -a -m\"WIP\"
+  up = pull --rebase
+  ls = log --stat --ignore-space-change --abbrev-commit -M -C -B
+  lsh = log --pretty=format:\"%Cred%h %Creset%cr %Cgreen%an %Creset%s\"
+
+[user]
+	name = vladsaveliev
+	email = vladislav.sav@gmail.com
+[push]
+	default = simple
+[credential]
+	helper = cache --timeout 999999999999
+[core]
+	autocrlf = input
+	editor = nano
+[filter "lfs"]
+	smudge = git-lfs smudge %f
+	required = true
+	clean = git-lfs clean %f
